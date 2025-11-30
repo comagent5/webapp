@@ -17,4 +17,7 @@ def index(request: HttpRequest) -> HttpResponse:
 
 
 def about(request: HttpRequest) -> HttpResponse:
-    return HttpResponse('About Page')
+    content = {
+        'title': 'Мій перший WEB додаток',
+    }
+    return render(request, 'main/about.html', content)

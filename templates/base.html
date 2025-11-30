@@ -7,28 +7,30 @@
     <title>{{ title }}</title>
 </head>
 <body>
-    {% block header %}
     <header>
+    {% block header %}
         <img src="{% static 'python-logo2.png' %}" alt="Logo">
         <nav>
             {# Обов'язкові пункти меню #}
-            <a href="{% url 'home' %}">"Головна"</a>
-            <a href="{% url 'about' %}">"Про нас"</a>
+            <a href="{% url 'main:home' %}">"Головна"</a>
+            <a href="{% url 'catalog:index' %}">"Товари"</a>
+            <a href="{% url 'main:about' %}">"Про нас"</a>
+            {# <a href="{% url 'admin' %}">"адмін панель"</a> #}
         </nav>
-    </header>
     {% endblock header %}
+    </header>
 
-    {% block main %}
     <main>
+    {% block main %}
         <h3>Блок "main"</h3>
 
-    </main>
     {% endblock main %}
+    </main>
 
-    {% block footer %}
     <footer>
+    {% block footer %}
         <h3>Блок "footer"</h3>
-    </footer>
     {% endblock footer %}
+    </footer>
 </body>
 </html>

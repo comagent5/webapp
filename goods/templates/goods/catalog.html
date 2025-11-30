@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+<h1>Каталог продуктів</h1>
+
+{% for product in goods %}
+<p>{{ product }}</p>
+{% endfor %}
+
+{% endblock main %}
+
+{% block footer %}
+{% endblock footer %}
