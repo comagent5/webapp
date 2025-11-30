@@ -1,0 +1,112 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{% get_current_language %}" dir="ltr">
+<head>
+    {% block head_meta %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% endblock head_meta %}
+
+    {% block title %}
+    <title>{% trans "Курс: Django українською" %} | {% block page_title %}{% endblock page_title %}</title>
+    {% endblock title %}
+
+    {% block head_css %}
+    {# Підключення основних CSS #}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <style>
+        /* Базові стилі для прикладу */
+        body { font-family: Arial, sans-serif; margin: 0; padding-top: 60px; }
+        header { background: #333; color: white; padding: 10px 20px; position: fixed; width: 100%; top: 0; z-index: 1000; }
+        nav a { color: white; margin: 0 15px; text-decoration: none; }
+        main { padding: 20px; min-height: 70vh; }
+        footer { background: #eee; text-align: center; padding: 10px; border-top: 1px solid #ccc; }
+    </style>
+    {% endblock head_css %}
+
+    {% block head_js_top %}
+    {# Скрипти, які потрібно завантажити до рендерингу контенту (наприклад, деякі бібліотеки) #}
+    {% endblock head_js_top %}
+</head>
+
+<body>
+
+    {% block header %}
+    <header>
+        <div class="site-branding">
+            <h1>
+                <a href="/">{% trans "Назва Сайту" %}</a>
+            </h1>
+        </div>
+
+        {% block navbar %}
+        <nav>
+            {# Обов'язкові пункти меню #}
+            <a href="{% url 'home' %}">{% trans "Головна" %}</a>
+            <a href="{% url 'about' %}">{% trans "Про нас" %}</a>
+            <a href="{% url 'contact' %}">{% trans "Контакти" %}</a>
+            <a href="{% url 'blog:post_list' %}">{% trans "Блог" %}</a>
+
+            {# Блок для додавання специфічних посилань або кнопок (наприклад, вхід/виxід) #}
+            {% block navbar_extra_links %}
+                {% if user.is_authenticated %}
+                <a href="{% url 'account:profile' %}">{% trans "Профіль" %}</a>
+                {% else %}
+                <a href="{% url 'account_login' %}">{% trans "Увійти" %}</a>
+                {% endif %}
+            {% endblock navbar_extra_links %}
+
+            {% block language_switcher %}
+            {# Приклад перемикача мови #}
+            <form action="{% url 'set_language' %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ request.path }}">
+                <select name="language" onchange="this.form.submit()">
+                    <option value="uk" {% if LANGUAGE_CODE == 'uk' %}selected{% endif %}>UA</option>
+                    <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>EN</option>
+                </select>
+            </form>
+            {% endblock language_switcher %}
+        </nav>
+        {% endblock navbar %}
+    </header>
+    {% endblock header %}
+
+    {% block messages %}
+    {# Тут будуть відображатися повідомлення Django (success, error, info) #}
+    {% include 'includes/messages.html' %}
+    {% endblock messages %}
+
+    {% block main_content %}
+    <main role="main">
+        {# Заголовок сторінки, який буде визначатися в дочірньому шаблоні #}
+        <h1>{% block h1_title %}{% endblock h1_title %}</h1>
+
+        {# ОСНОВНИЙ КОНТЕНТ СТОРІНКИ - ПОВИНЕН БУТИ ЗАПОВНЕНИЙ В ДОЧІРНЬОМУ ШАБЛОНІ #}
+        {% block content %}
+        <p>Контент сторінки завантажиться тут.</p>
+        {% endblock content %}
+    </main>
+    {% endblock main_content %}
+
+    {% block footer %}
+    <footer>
+        {% block footer_content %}
+        <p>&copy; {% now "Y" %} {% trans "Назва Сайту" %}. {% trans "Всі права захищені." %}</p>
+        {% endblock footer_content %}
+    </footer>
+    {% endblock footer %}
+
+    {% block body_js_bottom %}
+    {# Підключення основних JavaScript в кінці <body> для кращої продуктивності #}
+    <script src="{% static 'js/main.js' %}"></script>
+    {% endblock body_js_bottom %}
+
+    {% block analytics %}
+    {# Тут можна розмістити коди аналітики (Google Analytics, наприклад) #}
+    {% endblock analytics %}
+
+</body>
+</html>

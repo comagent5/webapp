@@ -19,7 +19,9 @@ from django.urls import include, path
 from main import views
 
 urlpatterns = [
-    path('', views.index, name='home'),  # include('main.index')
-    path('about/', views.about, name='about'), # include('main.about')
-    path('admin/', admin.site.urls),
+    # path('', views.index, name='home'),
+    # path('about/', views.about, name='about'),
+    path('', include('main.urls')),
+    # path('about/', include('main.urls'), name='about'),
+    path('admin/', admin.site.urls, name='admin'),
 ]
