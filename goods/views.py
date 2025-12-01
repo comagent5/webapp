@@ -1,18 +1,14 @@
 from django.http import HttpRequest
 from django.shortcuts import render
+from goods.models import Category
 
 # Create your views here.
 def catalog(request: HttpRequest):
+    categories = Category.objects.all()
+
     content = {
         'title': 'Мій перший WEB додаток',
-        'goods': [
-            '1-й товар',
-            '2-й товар',
-            '3-й товар',
-            '4-й товар',
-            '5-й товар',
-            '6-й товар',
-        ]
+        'categories': categories,
     }
     return render(request, 'goods/catalog.html', content)
 
