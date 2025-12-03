@@ -4,8 +4,10 @@
 {% block main %}
 <h1>Каталог продуктів</h1>
 
-{% for product in goods %}
-<p>{{ product }}</p>
+{% for product in products %}
+
+<p>{{ product.name }}</p>
+
 {% endfor %}
 
 {% endblock main %}
