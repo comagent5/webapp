@@ -5,7 +5,11 @@
 
 <h1>Опис продукта</h1>
 
-<p>Тут буде перелік продуктів...</p>
+<p>
+    {{ product.mame }}
+    <b>{{ product.price }}</b>
+    {{ product.slug }}
+</p>
 
 {% endblock main %}
 

@@ -6,7 +6,11 @@
 
 {% for product in products %}
 
-<p>{{ product.name }}</p>
+<p>
+    {{ product.mame }}
+    <b>{{ product.price }}</b>
+    {{ product.slug }}
+</p>
 
 {% endfor %}
 
