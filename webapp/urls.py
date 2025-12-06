@@ -23,7 +23,7 @@ from webapp import settings
 urlpatterns = [
     path('', include('main.urls', namespace='main')),
     path('catalog/', include('goods.urls', namespace='catalog')),
-    # path('product/', include('goods.urls', namespace='product')),
+    path('users/', include('users.urls', namespace='users')),
     path('admin/', admin.site.urls, name='admin'),
 ]
 
