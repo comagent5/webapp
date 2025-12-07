@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
@@ -14,6 +15,11 @@ def catalog(request: HttpRequest):
     }
     return render(request, 'goods/catalog.html', content)
 
+
+
+# Якщо необхідна авторизація
+# class GoodsListView(LoginRequiredMixin, ListView):
+#     login_url = 'users:login'
 
 class GoodsListView(ListView):
     """

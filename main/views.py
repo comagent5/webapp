@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
@@ -16,6 +17,7 @@ def index(request: HttpRequest) -> HttpResponse:
     return render(request, 'main/index.html', content) 
 
 
+@login_required(login_url='users:login')
 def about(request: HttpRequest) -> HttpResponse:
     content = {
         'title': 'Мій перший WEB додаток',
