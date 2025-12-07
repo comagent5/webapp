@@ -13,4 +13,6 @@ urlpatterns = [
 
     # вихід через функцію відображення
     # path('logout/', views.logout_user, name='logout'),
+
+    path('register/', views.register, name='register'),
 ]

@@ -6,12 +6,12 @@ from goods.models import Category, Product
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('mame',)}
+    prepopulated_fields = {'slug': ('name',)}
 
 
 # admin.site.register(Product)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('mame',)}
+    prepopulated_fields = {'slug': ('name',)}
 

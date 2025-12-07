@@ -15,7 +15,10 @@
             <a href="{% url 'main:home' %}">Головна</a>
             <a href="{% url 'catalog:index' %}">Товари</a>
             <a href="{% url 'main:about' %}">Про нас</a>
+            <a href="{% url 'users:login' %}">Вхід</a>
+            <a href="{% url 'users:login' %}">Вихід</a>
             <a href="{% url 'admin:index' %}">Адмін панель</a>
+            <a href="{% url 'users:register' %}">Регістрація</a>
         </nav>
     {% endblock header %}
     </header>

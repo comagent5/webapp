@@ -5,7 +5,7 @@ class Category(models.Model):
     """
     Класс - категорії (групи) товарів
     """
-    mame = models.CharField(max_length=150, unique=True,
+    name = models.CharField(max_length=150, unique=True,
                             verbose_name='Назва категорії (групи)')
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True,
                             verbose_name='URL категорії (групи)')
@@ -16,14 +16,14 @@ class Category(models.Model):
         verbose_name_plural = 'Категорії'
 
     def __str__(self):
-        return self.mame
+        return self.name
 
 
 class Product(models.Model):
     """
     Клаа - товар (головні атрібути)
     """
-    mame = models.CharField(max_length=150, unique=True,
+    name = models.CharField(max_length=150, unique=True,
                             verbose_name='Назва товара')
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True,
                             verbose_name='URL товара')
@@ -44,4 +44,4 @@ class Product(models.Model):
         verbose_name_plural = 'Товари'
 
     def __str__(self):
-        return f'{self.mame} Кількість - {self.quantity}'
+        return f'{self.name} Кількість - {self.quantity}'

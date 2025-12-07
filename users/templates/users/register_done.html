@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<h1>Хай щастить !</h1>
+
+<p>Ви вдало зареєструвалися на сайті! Для входу в систему потрібно авторизуватися по
+<a href="{% url 'users:login' %}">посиланню</a>
+</p>
+
+{% endblock main %}
+
+{% block footer %}
+{% endblock footer %}
