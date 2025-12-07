@@ -5,8 +5,9 @@ from django.contrib.auth.views import LoginView
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView
 
-from users.forms import LoginUserForm, RegisterUserForm
+from users.forms import LoginUserForm, RegisterUserForm, RegisterUserForm2
 
 
 class LoginUser(LoginView):
@@ -42,12 +43,19 @@ def logout_user(request: HttpRequest):
     return HttpResponseRedirect(reverse('users:login'))
 
 
+class RegisterUser(CreateView):
+    form_class = RegisterUserForm2
+    template_name = 'users/register.html'
+    extra_context = {'title': 'Реєстрація'}
+    success_url = reverse_lazy('users:login')
+
+
 def register(request: HttpRequest):
     if request.method == 'POST':
         form = RegisterUserForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
+            user.set_password(form.cleaned_data['password1'])
             user.save()
             return render(request, 'users/register_done.html')
     else:
