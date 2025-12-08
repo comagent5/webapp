@@ -156,3 +156,10 @@ LOGOUT_REDIRECT_URL = 'main:home'
 # URL-адрес, на який буде переправлен не авторизований користувач,
 # після спроби відвідати закриту сторінку
 LOGIN_URL = 'users:login'
+
+
+# Перелік бекендов аутентифікації
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "users.authentication.EmailAuthBackend",
+]

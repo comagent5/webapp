@@ -19,4 +19,6 @@ urlpatterns = [
 
     # реєстрація через функцію відображення
     # path('register/', views.register, name='register'),
+
+    path('profile/', views.ProfileUser.as_view(), name='profile')
 ]

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<h1>Профіль </h1>
+
+<form method="post">
+    {% csrf_token %}
+    {# <input type="hidden" name="next" value="{{ next }}" /> #}
+
+    {{ form.as_p }}
+    <p><button type="submit">Зберегти</button> </p>
+</form>
+
+{% endblock main %}
+
+{% block footer %}
+{% endblock footer %}
