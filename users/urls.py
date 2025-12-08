@@ -1,4 +1,4 @@
-from django.contrib.auth.views import LogoutView
+from django.contrib.auth.views import LogoutView, PasswordChangeView, PasswordChangeDoneView
 from django.urls import include, path
 from users import views
 
@@ -20,5 +20,11 @@ urlpatterns = [
     # реєстрація через функцію відображення
     # path('register/', views.register, name='register'),
 
-    path('profile/', views.ProfileUser.as_view(), name='profile')
+    path('profile/', views.ProfileUser.as_view(), name='profile'),
+
+    path('password-change', views.UserPasswordChange.as_view(), name='password-change'), # форма з Django PasswordChangeView.as_view()
+    
+    path('password-change/done/', 
+         PasswordChangeDoneView.as_view(template_name='users/password_change_done.html'), 
+         name='password-change-done'),
 ]
