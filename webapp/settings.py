@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'main',
     'goods',
     'users',
+    'medoc',
 ]
 
 MIDDLEWARE = [
@@ -86,8 +87,20 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    "postgresql": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "comagent5",
+        "USER": "postgres",
+        "PASSWORD": "masterkey",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
+
+DATABASE_ROUTERS = [
+    'medoc.dbrouters.MedocDBRouter',
+]
 
 
 # Password validation

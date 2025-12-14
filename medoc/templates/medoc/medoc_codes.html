@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+<h1>Архів замовлень кодів доступу</h1>
+
+{% for code in medoc_codes|slice:":20" %}
+
+<ul>
+    <li>
+        {{ code.edrpo }} {{ code.name }} {{ code.date_cod|date:'d.m.Y' }} {{ code.sum_cl }}
+    </li>
+</ul>
+
+{% endfor %}
+
+{% endblock main %}
+
+{% block footer %}
+{% endblock footer %}

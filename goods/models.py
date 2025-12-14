@@ -14,6 +14,7 @@ class Category(models.Model):
         db_table = 'category'
         verbose_name = 'Категорія'
         verbose_name_plural = 'Категорії'
+        required_db_vendor = 'postgresql'
 
     def __str__(self):
         return self.name
