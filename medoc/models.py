@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import CharField, DateField, DecimalField
+from django.db.models import CharField, DateField, DecimalField, FloatField
 
 from datetime import datetime
 
@@ -15,6 +15,8 @@ class MedocCodes(models.Model):
     type_cod = CharField(max_length=16, verbose_name='Тип коду доступа')
     sum_cl = DecimalField(max_digits=14, decimal_places=2, verbose_name='Вартість (клієнт)')
     sum_diler = DecimalField(max_digits=14, decimal_places=2, verbose_name='Вартість (ділєр)')
+    # sum_cl = FloatField(verbose_name='Вартість (клієнт)')
+    # sum_diler = FloatField(verbose_name='Вартість (ділєр)')
     date_zakaz = DateField(verbose_name='Дата заказу')
     module = CharField(max_length=20, verbose_name='Назва модулю')
     sum_comp = DecimalField(max_digits=14, decimal_places=2, verbose_name='Сума компенсації')
@@ -27,7 +29,7 @@ class MedocCodes(models.Model):
         verbose_name_plural = 'М.Е.Док Архів заказів'
         ordering = ['date_cod', 'edrpo']
         managed = False
-        # required_db_vendor = 'postgresql'
+        required_db_vendor = 'postgresql'
 
     def __str__(self):
         name = str(self.name).strip()
@@ -36,6 +38,9 @@ class MedocCodes(models.Model):
         return f'{name} {date} {type_cod}'
 
 """
+CREATE TABLE IF NOT EXISTS public.medoc_codes
+(
+    id integer NOT NULL DEFAULT nextval('medoc_codes_id_seq'::regclass),
     diler character varying(50) COLLATE pg_catalog."default" NOT NULL,
     edrpo character varying(12) COLLATE pg_catalog."default" NOT NULL,
     name character varying(80) COLLATE pg_catalog."default" NOT NULL,
@@ -47,4 +52,6 @@ class MedocCodes(models.Model):
     module character varying(20) COLLATE pg_catalog."default" NOT NULL,
     sum_comp numeric(14,2) NOT NULL,
     note character varying(80) COLLATE pg_catalog."default",
+    CONSTRAINT medoc_codes_pkey PRIMARY KEY (id)
+)
 """
