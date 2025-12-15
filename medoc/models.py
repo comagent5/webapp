@@ -11,7 +11,7 @@ class MedocCodes(models.Model):
     diler = CharField(max_length=50, verbose_name='Ділєр')
     edrpo = CharField(max_length=12, verbose_name=r'ЄДРПОУ/РНОКПП')
     name = CharField(max_length=80, verbose_name='Найменування клієнта')
-    date_cod = DateField(verbose_name='Дата дії')
+    date_cod = DateField(verbose_name='Дата: діє до')
     type_cod = CharField(max_length=16, verbose_name='Тип коду доступа')
     sum_cl = DecimalField(max_digits=14, decimal_places=2, verbose_name='Вартість (клієнт)')
     sum_diler = DecimalField(max_digits=14, decimal_places=2, verbose_name='Вартість (ділєр)')

@@ -3,16 +3,71 @@
 
 {% block main %}
 <h1>Архів замовлень кодів доступу</h1>
+<p><b>Знайдено {{ total_count }} рядків</b></p>
+<table>
+    <thead>
+        <tr>
+            <th>ЄДРПОУ/РНОКПП</th>
+            <th>Найменування клієнта</th>
+            <th>Дата: діє до</th>
+            <th>Тип коду доступа</th>
+            <th>Вартість (клієнт)</th>
+            <th>Вартість (ділєр)</th>
+            <th>Дата заказу</th>
+            <th>Назва модулю</th>
+            <th>Сума компенсації</th>
+            <th>Примітки</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for code in medoc_codes %}   <!-- |slice:":20" -->
+        <tr>
+            <td>{{ code.edrpo }}</td>
+            <td>{{ code.name }}</td>
+            <td>{{ code.date_cod|date:'d.m.Y' }}</td>
+            <td>{{ code.type_cod }}</td>
+            <td>{{ code.sum_cl }}</td>
+            <td>{{ code.sum_diler }}</td>
+            <td>{{ code.date_zakaz|date:'d.m.Y' }}</td>
+            <td>{{ code.module }}</td>
+            <td>{{ code.sum_comp }}</td>
+            <td>{{ code.note }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-{% for code in medoc_codes|slice:":20" %}
+{% block paginator %}
+{% if page_obj.has_other_pages %}
+<nav>
+    <ul>
+        {% if page_obj.has_previous %}
+        <li>
+            <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+        </li>
+        {% endif %}
 
-<ul>
-    <li>
-        {{ code.edrpo }} {{ code.name }} {{ code.date_cod|date:'d.m.Y' }} {{ code.sum_cl }} {{ code.sum_diler }}
-    </li>
-</ul>
+        {% for p in paginator.page_range %}
+            {% if page_obj.number == p %}
+            <li>
+                <b>{{ p }}</b>
+            </li>
+            {% elif p >= page_obg.number|add:-2 and p <= page_obg.number|add:2 %}
+            <li>
+                <a href="?page={{ p }}">{{ p }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
 
-{% endfor %}
+        {% if page_obj.has_next %}
+        <li>
+            <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}
 
 {% endblock main %}
 
