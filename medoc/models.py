@@ -15,8 +15,6 @@ class MedocCodes(models.Model):
     type_cod = CharField(max_length=16, verbose_name='Тип коду доступа')
     sum_cl = DecimalField(max_digits=14, decimal_places=2, verbose_name='Вартість (клієнт)')
     sum_diler = DecimalField(max_digits=14, decimal_places=2, verbose_name='Вартість (ділєр)')
-    # sum_cl = FloatField(verbose_name='Вартість (клієнт)')
-    # sum_diler = FloatField(verbose_name='Вартість (ділєр)')
     date_zakaz = DateField(verbose_name='Дата заказу')
     module = CharField(max_length=20, verbose_name='Назва модулю')
     sum_comp = DecimalField(max_digits=14, decimal_places=2, verbose_name='Сума компенсації')

@@ -7,7 +7,7 @@ from medoc.models import MedocCodes
 
 
 # Create your views here.
-class MedocListView(ListView):
+class MedocListView(LoginRequiredMixin, ListView):
     """
     Класс: БД замовлень кодів доступу (ліцензій) М.Е.Док
     """
@@ -18,15 +18,25 @@ class MedocListView(ListView):
         'title': 'Архів замовлень кодів доступу (ліцензій) М.Е.Док',
     }
     paginate_by = 15
+    # Список назв полів, які ми хочемо бачити в таблиці (по порядку)
+    field_names = [
+        'edrpo', 'name', 'date_cod', 'type_cod',
+        'sum_cl', 'sum_diler', 'date_zakaz',
+        'module', 'sum_comp', 'note'
+    ]
 
     def get_queryset(self):
         # 1. Отримати базовий (початковий) queryset
-        if 'edrpo' in self.kwargs:
-            edrpo = self.kwargs.get('edrpo')
+        queryset = super().get_queryset()
+
+        # 2. Пошу по ЄДРПОУ
+        edrpo = self.kwargs.get('edrpo', '')
+        if not edrpo:
+            edrpo = self.request.GET.get('edrpo', '')
+        if edrpo:
+            self.extra_context['edrpo'] = edrpo
             queryset = super().get_queryset().filter(edrpo=edrpo).order_by('date_cod')
             self.extra_context['title'] = f"Архів замовлень для ЄДРПОУ: {edrpo}"
-        else:
-            queryset = super().get_queryset()
 
         return queryset
 
@@ -37,7 +47,18 @@ class MedocListView(ListView):
         # 1. Отримати стандартний контекст (включає відфільтрований self.object_list)
         context = super().get_context_data(**kwargs)
 
-        # 2. Додавання іншої додаткової інформації (наприклад, загальна кількість знайдених ліцензій)
-        context['total_count'] = context[self.context_object_name].count()
+        # Отримуємо МЕТА-дані моделі
+        opts = self.model._meta
+        # Створюємо список заголовків (verbose_name)
+        context['table_headers'] = [
+            opts.get_field(name).verbose_name for name in self.field_names
+        ]
+
+        # Щоб у циклі <tbody> було зручно виводити дані,
+        # збережемо також імена полів
+        context['field_names'] = self.field_names
+
+        # 2. Додавання значення ЄДРПОУ для фільтру
+        context['edrpo'] = self.request.GET.get('edrpo', '')
 
         return context
