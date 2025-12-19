@@ -4,6 +4,8 @@
 {% block main %}
 <h1>Авторизація</h1>
 
+{% include 'includes/_messages.html' %}
+
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

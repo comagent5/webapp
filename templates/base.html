@@ -11,71 +11,9 @@
 <body>
     <header>
     {% block header %}
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="{% url 'main:home' %}">
-                    <img src="{% static 'python-logo2.png' %}"
-                         alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
-                    Newborn
-                </a>
-                <button class="navbar-toggler" type="button"
-                        data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active aria-current='page'{% endif %}"
-                               href="{% url 'main:home' %}">Головна</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% active_link 'medoc:medoc_codes' %}"
-                               href="{% url 'medoc:medoc_codes' %}">М.Е.Док</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% active_link 'catalog:index' %}"
-                               href="{% url 'catalog:index' %}">Товари</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% active_link 'main:about' %}"
-                               href="{% url 'main:about' %}">Про нас</a>
-                        </li>
-                    </ul>
-
-                    <div class="d-flex align-items-center">
-                    {% if user.is_authenticated %}
-                        <span class="navbar-text me-3">
-                            Привіт, <strong><a href="{% url 'users:profile' %}" class="text-decoration-none text-dark">{{ user.username }}</a></strong>
-                        </span>
-                        {% if user.is_staff %}
-                            <a href="{% url 'admin:index' %}" class="btn btn-outline-secondary btn-sm me-2">Адмінка</a>
-                        {% endif %}
-                        <form action="{% url 'users:logout' %}" method="post" class="d-inline">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-sm btn-danger">Вийти</button>
-                        </form>
-                    {% else %}
-                        <a href="{% url 'users:login' %}" class="btn btn-outline-primary me-2">Вхід</a>
-                        <a href="{% url 'users:register' %}" class="btn btn-primary">Реєстрація</a>
-                    {% endif %}
-                    </div>
-                </div>
-            </div>
-        </nav>
+        {% include 'includes/_navbar.html' %}
+        {% include 'includes/_messages.html' %}
     {% endblock header %}
-
-    {% block messages %}
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endfor %}
-    {% endif %}
-    {% endblock messages %}
     </header>
 
     <main>
