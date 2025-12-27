@@ -22,7 +22,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     """
-    Клаа - товар (головні атрібути)
+    Клаcc - товар (головні атрібути)
     """
     name = models.CharField(max_length=150, unique=True,
                             verbose_name='Назва товара')
