@@ -1,18 +1,27 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
-from django.forms.models import ModelForm
+
 
 
 class LoginUserForm(AuthenticationForm):  # forms.Form
-    username = forms.CharField(label='Логін',
-                               widget=forms.TextInput(attrs={'class': 'form-input'}))
-    password = forms.CharField(label='Пароль',
-                               widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    '''    username = forms.CharField(
+        label='Логін',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введіть логін'})
+    )
+    password = forms.CharField(
+        label='Пароль',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Введіть пароль'})
+    )
+    або перевизначаємо поля як вище з class Bootstrap
+    або створюємо __init__ в якому додаємо class в поля
+    '''
 
-    class Meta:
-        model = get_user_model()
-        fields = ['username', 'password']
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Додаємо клас form-control для Bootstrap стилізації
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
 
 
 class RegisterUserForm(forms.ModelForm):
@@ -47,29 +56,28 @@ class RegisterUserForm(forms.ModelForm):
         return email
 
 
-class RegisterUserForm2(UserCreationForm):
-    username = forms.CharField(label='Логін', widget=forms.TextInput(attrs={'class': 'form-input'}))
-    password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput())
-    password2 = forms.CharField(label='Перевірка паролю', widget=forms.PasswordInput())
+class UserRegistrationForm(UserCreationForm):
+    email = forms.EmailField(label='E-mail', required=True)
 
-    class Meta:
+    class Meta:  # (UserCreationForm.Meta)
         model = get_user_model()
-        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
+        fields = ('username', 'email', 'first_name', 'last_name')
         labels = {
-            'email': 'E-mail',
+            'username': 'Логін',
             'first_name': "Ім'я",
-            'last_name': 'Призвіще'
+            'last_name': 'Прізвище',
         }
-        widgets = {
-            'email': forms.TextInput(attrs={'class': 'form-input'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-input'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-input'})
-        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Автоматично додаємо клас 'form-control' до всіх полів
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
 
     def clean_email(self):
-        email = self.cleaned_data['email']
+        email = self.cleaned_data.get('email')
         if get_user_model().objects.filter(email=email).exists():
-            raise forms.ValidationError('Такий E-mail вже існує !')
+            raise forms.ValidationError('Користувач з таким E-mail вже існує!')
         return email
 
 

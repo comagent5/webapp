@@ -10,13 +10,13 @@ urlpatterns = [
     path('login/', views.LoginUser.as_view(), name='login'),
 
     # вихід через вбудований класс, та параметр settings.LOGOUT_REDIRECT_URL
-    # path('logout/', LogoutView.as_view(), name='logout'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 
     # вихід через функцію відображення
-    path('logout/', views.logout_user, name='logout'),
+    # path('logout/', views.logout_user, name='logout'),
 
     # реєстрація через клас відображення
-    path('register/', views.RegisterUser.as_view(), name='register'),
+    path('register/', views.RegisterUserView.as_view(), name='register'),
 
     # реєстрація через функцію відображення
     # path('register/', views.register, name='register'),

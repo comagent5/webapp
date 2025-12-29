@@ -9,16 +9,18 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
 from users.forms import LoginUserForm, RegisterUserForm, ProfileUserForm, UserPasswordChangeForm
-from users.forms import RegisterUserForm2
+from users.forms import UserRegistrationForm
 
 
 class LoginUser(LoginView):
     form_class = LoginUserForm      #AuthenticationForm
     template_name = 'users/login.html'
     extra_context = { 'title': 'Авторизація'}
-
+    success_url = reverse_lazy('main:home')
+"""    
     def get_success_url(self):
         return reverse_lazy('main:home')
+"""
 
 
 def login_user(request: HttpRequest):
@@ -45,8 +47,8 @@ def logout_user(request: HttpRequest):
     return HttpResponseRedirect(reverse('users:login'))
 
 
-class RegisterUser(CreateView):
-    form_class = RegisterUserForm2
+class RegisterUserView(CreateView):
+    form_class = UserRegistrationForm
     template_name = 'users/register.html'
     extra_context = {'title': 'Реєстрація'}
     success_url = reverse_lazy('users:login')
