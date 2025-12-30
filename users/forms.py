@@ -20,8 +20,15 @@ class LoginUserForm(AuthenticationForm):  # forms.Form
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Додаємо клас form-control для Bootstrap стилізації
-        for field in self.fields.values():
-            field.widget.attrs.update({'class': 'form-control'})
+        for field_name, field in self.fields.items():
+            # Базовий клас для всіх полів
+            existing_classes = "form-control"
+
+            # Перевіряємо, чи є помилки для цього конкретного поля
+            if self.errors.get(field_name):
+                existing_classes += " is-invalid"
+
+            field.widget.attrs.update({'class': existing_classes})
 
 
 class RegisterUserForm(forms.ModelForm):

@@ -2,7 +2,8 @@ from django import forms
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, PasswordChangeView
+from django.contrib.auth.views import (LoginView, PasswordChangeView, PasswordResetView,
+    PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView)
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -14,7 +15,7 @@ from users.forms import UserRegistrationForm
 
 
 class LoginUser(LoginView):
-    form_class = LoginUserForm      #AuthenticationForm
+    form_class = LoginUserForm
     template_name = 'users/login.html'
     extra_context = { 'title': 'Авторизація'}
     success_url = reverse_lazy('main:home')
@@ -86,3 +87,35 @@ class UserPasswordChange(PasswordChangeView):
     form_class = UserPasswordChangeForm
     success_url = reverse_lazy('users:password-change-done')
     template_name = 'users/password_change_form.html'
+
+
+class UserPasswordResetView(PasswordResetView):
+    template_name = 'users/password_reset_form.html'
+    email_template_name = 'users/password_reset_email.html'
+    success_url = reverse_lazy('users:password_reset_done')
+
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        # Додаємо Bootstrap класи динамічно
+        for field in form.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+        return form
+
+
+class UserPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'users/password_reset_done.html'
+
+
+class UserPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'users/password_reset_confirm.html'
+    success_url = reverse_lazy('users:password_reset_complete')
+
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        for field in form.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+        return form
+
+
+class UserPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'users/password_reset_complete.html'

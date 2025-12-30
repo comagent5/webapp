@@ -14,14 +14,24 @@
                     <form method="post">
                         {% csrf_token %}
 
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
                         {% for f in form %}
                             <div class="mb-3">
                                 <label for="{{ f.id_for_label }}" class="form-label">{{ f.label }}</label>
-                                {{ f }}
-                                {% if f.errors %}
-                                    <div class="text-danger small">
-                                        {{ f.errors }}
-                                    </div>
+
+                                {{ f }} {% if f.errors %}
+                                    {% for error in f.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
                                 {% endif %}
                             </div>
                         {% endfor %}
