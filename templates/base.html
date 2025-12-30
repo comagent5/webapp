@@ -28,5 +28,22 @@
         <h3>Блок "footer"</h3>
     {% endblock footer %}
     </footer>
+
+    <script>
+        // Чекаємо завантаження сторінки
+        document.addEventListener("DOMContentLoaded", function() {
+            // Знаходимо всі сповіщення на сторінці
+            const alerts = document.querySelectorAll('.alert');
+
+            alerts.forEach(function(alert) {
+                // Встановлюємо таймер на 5000 мс (5 секунд)
+                setTimeout(function() {
+                    // Використовуємо вбудований метод Bootstrap для закриття
+                    let bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                }, 5000);
+            });
+        });
+    </script>
 </body>
 </html>

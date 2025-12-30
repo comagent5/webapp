@@ -82,27 +82,35 @@ class UserRegistrationForm(UserCreationForm):
 
 
 class ProfileUserForm(forms.ModelForm):
-    username = forms.CharField(disabled=True, label='Логін', widget=forms.TextInput(attrs={'class': 'form-input'}))
-    email = forms.CharField(disabled=True, label='E-mail', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    # Поля, які не можна редагувати
+    username = forms.CharField(disabled=True, label='Логін')
+    email = forms.EmailField(disabled=True, label='E-mail')
 
     class Meta:
         model = get_user_model()
         fields = ['username', 'email', 'first_name', 'last_name']
         labels = {
             'first_name': "Ім'я",
-            'last_name': 'Призвіще'
+            'last_name': 'Прізвище'
         }
-        widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'form-input'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-input'})
-        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Автоматично додаємо Bootstrap класи до всіх полів
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
 
 
 class UserPasswordChangeForm(PasswordChangeForm):
-    old_password = forms.CharField(label='Старий пароль', 
+    '''old_password = forms.CharField(label='Старий пароль',
                                    widget=forms.PasswordInput(attrs={'class': 'form-input'}))
-    new_password1 = forms.CharField(label='Новий пароль', 
+    new_password1 = forms.CharField(label='Новий пароль',
                                     widget=forms.PasswordInput(attrs={'class': 'form-input'}))
-    new_password2 = forms.CharField(label='Підтвердження паролю', 
-                                    widget=forms.PasswordInput(attrs={'class': 'form-input'}))
-    
+    new_password2 = forms.CharField(label='Підтвердження паролю',
+                                    widget=forms.PasswordInput(attrs={'class': 'form-input'}))'''
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Додаємо Bootstrap класи до всіх полів автоматично
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})

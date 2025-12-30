@@ -2,19 +2,50 @@
 {% load static %}
 
 {% block main %}
-<h1>Профіль </h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Мій профіль</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
 
-<form method="post">
-    {% csrf_token %}
-    {# <input type="hidden" name="next" value="{{ next }}" /> #}
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label font-weight-bold">
+                                    {{ field.label }}
+                                </label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    <div class="text-danger small">
+                                        {{ field.errors|striptags }}
+                                    </div>
+                                {% endif %}
+                                {% if field.help_text %}
+                                    <div class="form-text text-muted">{{ field.help_text }}</div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
 
-    {{ form.as_p }}
-    <p><button type="submit">Зберегти</button> </p>
-</form>
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success">Зберегти зміни</button>
+                        </div>
+                    </form>
 
-<hr>
-<p><a href="{% url 'users:password-change' %}">Змінити пароль</a></p>
-
+                    <hr>
+                    <div class="text-center">
+                        <a href="{% url 'users:password-change' %}" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-key"></i> Змінити пароль
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock main %}
 
 {% block footer %}

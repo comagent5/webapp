@@ -2,12 +2,39 @@
 {% load static %}
 
 {% block main %}
-<h1>Хай щастить !</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="card shadow-sm border-0 p-5">
+                <div class="mb-4">
+                    <div class="display-1 text-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <span style="font-size: 80px;">✓</span>
+                    </div>
+                </div>
 
-<p>Ви вдало зареєструвалися на сайті! Для входу в систему потрібно авторизуватися по
-<a href="{% url 'users:login' %}">посиланню</a>
-</p>
+                <h1 class="fw-bold text-dark">Вітаємо!</h1>
+                <p class="lead text-muted mb-4">
+                    Ви вдало зареєструвалися на нашому сайті. Тепер усі можливості сервісу відкриті для вас.
+                </p>
 
+                <hr class="my-4">
+
+                <p class="mb-4">Для початку роботи необхідно авторизуватися:</p>
+
+                <div class="d-grid gap-2">
+                    <a href="{% url 'users:login' %}" class="btn btn-primary btn-lg px-5">
+                        Увійти в систему
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-4 text-muted">
+                <small>Хай щастить у використанні нашого сервісу!</small>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock main %}
 
 {% block footer %}

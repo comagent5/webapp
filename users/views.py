@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
@@ -67,16 +68,17 @@ def register(request: HttpRequest):
     return render(request, 'users/register.html', {'form': form})
 
 
-class ProfileUser(LoginRequiredMixin, UpdateView):
+class ProfileUser(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = get_user_model()
     form_class = ProfileUserForm
     template_name = 'users/profile.html'
     extra_context = {'title': 'Профіль користувача'}
+    success_url = reverse_lazy('users:profile')
 
-    def get_success_url(self):
-        return reverse_lazy('users:profile')
+    # Текст повідомлення, яке з'явиться після збереження
+    success_message = "Ваш профіль було успішно оновлено!"
 
-    def get_object(self, queryset = None):
+    def get_object(self, queryset=None):
         return self.request.user
 
 
